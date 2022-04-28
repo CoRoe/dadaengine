@@ -21,7 +21,7 @@ cpp 	= /lib/cpp
 INSTALL	=	/usr/bin/install -c
 
 all:	dada
-	$(MAKE) -C regex
+
 	$(MAKE) -C src
 	$(MAKE) -C doc
 

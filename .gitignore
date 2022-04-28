@@ -1,0 +1,12 @@
+*~
+src/*.o
+src/*.a
+src/pb
+src/y.tab.c
+src/y.tab.h
+src/lex.yy.c
+src/y.output
+doc/dada.info
+config.cache
+config.log
+config.status

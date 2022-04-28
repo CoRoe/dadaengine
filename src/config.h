@@ -2,7 +2,7 @@
 /* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
 /* Define if using alloca.c.  */
-#define C_ALLOCA 1
+/* #undef C_ALLOCA */
 
 /* Define to empty if the keyword does not work.  */
 /* #undef const */
@@ -12,10 +12,10 @@
 /* #undef CRAY_STACKSEG_END */
 
 /* Define if you have alloca, as a function or macro.  */
-/* #undef HAVE_ALLOCA */
+#define HAVE_ALLOCA 1
 
 /* Define if you have <alloca.h> and it should be used (not on Ultrix).  */
-/* #undef HAVE_ALLOCA_H */
+#define HAVE_ALLOCA_H 1
 
 /* Define as __inline if that's what the C compiler calls it.  */
 /* #undef inline */
@@ -27,19 +27,19 @@
 	STACK_DIRECTION < 0 => grows toward lower addresses
 	STACK_DIRECTION = 0 => direction of growth unknown
  */
-#define STACK_DIRECTION 0
+/* #undef STACK_DIRECTION */
 
 /* Define if you have the ANSI C header files.  */
-/* #undef STDC_HEADERS */
+#define STDC_HEADERS 1
 
 /* Define if you have the regcomp function.  */
-/* #undef HAVE_REGCOMP */
+#define HAVE_REGCOMP 1
 
 /* Define if you have the strcspn function.  */
-/* #undef HAVE_STRCSPN */
+#define HAVE_STRCSPN 1
 
 /* Define if you have the strdup function.  */
-/* #undef HAVE_STRDUP */
+#define HAVE_STRDUP 1
 
 /* Define if you have the <unistd.h> header file.  */
-/* #undef HAVE_UNISTD_H */
+#define HAVE_UNISTD_H 1
