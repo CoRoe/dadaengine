@@ -1,0 +1,2355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on April 28, 2022 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>The Dada Engine</title>
+
+<meta name="description" content="The Dada Engine">
+<meta name="keywords" content="The Dada Engine">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Top"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="settitle">The Dada Engine</h1>
+
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Basics">1. Basics</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                      Concepts fundamental to the Dada Engine.
+</td></tr>
+<tr><td align="left" valign="top"><a href="#The-pb-Language">2. The pb Language</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">             The language in which grammars are written
+</td></tr>
+<tr><td align="left" valign="top"><a href="#The-Standard-Library">3. The Standard Library</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">        Predefined rules which are supplied with the 
+                                Dada Engine
+</td></tr>
+<tr><td align="left" valign="top"><a href="#In-Practice">4. In Practice</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                 Practical advice on using the Dada Engine
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Revision-History">A. Revision History</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">            Changes to the Dada Engine
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Acknowledgments">B. Acknowledgments</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">             Those who have helped
+</td></tr>
+<tr><td align="left" valign="top"><a href="#To-Do">C. To Do</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                       A brief wish list
+</td></tr>
+</table>
+
+<hr size="1">
+<a name="Basics"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Overview" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[ &lt;&lt; ]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Basics-1"></a>
+<h1 class="chapter">1. Basics</h1>
+
+<p>The Dada Engine is a system for the generation of text from a
+specification.  
+The specification is a text file containing <em>rules</em> in the
+form of a (somewhat augmented and/or bogotified) grammar.
+These files are fed to the Dada Engine, which handles (or evaluates) 
+them and emits the resulting text.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Overview">1.1 Overview</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                    How does the Dada Engine work?
+</td></tr>
+<tr><td align="left" valign="top"><a href="#The-Evaluation-Process">1.2 The Evaluation Process</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">      What happens when the Dada Engine is run?
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Overview"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Basics" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Evaluation-Process" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Basics" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Basics" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Overview-1"></a>
+<h2 class="section">1.1 Overview</h2>
+
+<p>The Dada Engine is based on the principle of 
+<em>recursive transition networks</em>, or <em>recursive grammars</em>.
+A recursive transition network (RTN) is a diagram which shows how a 
+task, such as the construction of a sentence, may be carried out.
+A RTN consists of paths which may be followed and of operations along
+these paths which must be carried out.  For example, the following
+RTN defines how to construct one type of sentence:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">sentence:                     +-----------+
+                            +&gt;| adjective |&gt;+
+          +-------------+   | +-----------+ | +------+  +------+
+(start)-&gt;-| preposition |-&gt;-+-------&gt;-------+&gt;| noun |--| verb |-(end)
+          +-------------+                     +------+  +------+
+</pre></td></tr></table>
+
+<p>If one follows the network from the start to the end, one passes through
+boxes representing the various elements which make up the sentence in 
+sequence: first a preposition, then an optional adjective, then a noun
+and then a verb.  After the preposition, the network branches into two
+paths, one of which leads to the adjective and the other which bypasses
+it and goes straight on to the noun.  One may take either path in the 
+course of constructing a sentence. Nouns, verbs and the like
+could be represented by similar RTNs; a RTN for an adjective follows:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">adjective:       +---------+
+             +---| &quot;large&quot; |--+
+             |   +---------+  |
+             |   +---------+  |
+(start) --&gt;--+---| &quot;green&quot; |--+--&gt;-- (end)
+             |   +---------+  |
+             |   +---------+  |
+             +---| &quot;round&quot; |--+
+                 +---------+
+</pre></td></tr></table>
+
+<p>These recursive transition networks are represented in text as rules;
+the two networks above would be written as:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">sentence: pronoun [ adjective | &quot;&quot; ] noun verb ;
+
+adjective: &quot;large&quot; | &quot;green&quot; | &quot;round&quot; ;
+</pre></td></tr></table>
+
+<p>These would be part of the <em>grammar</em> defining the space of possible
+sentences.
+</p>
+<p>A recursive transition network may call itself, either directly or indirectly.
+Thus, things like the following are possible:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">verb: &quot;said `&quot; sentence &quot;'&quot; ;
+
+adjective: &quot;large&quot; | &quot;green&quot; | &quot;round&quot; | &quot;very &quot; adjective ;
+</pre></td></tr></table>
+
+<p>The first rule above calls the <code>sentence</code> rule which called it;
+the second rule may, as one of its options, call itself, prepending
+the word &quot;very&quot; to its output.  
+(Note that in reality one would not write a pair of rules such as 
+the <code>sentence</code> and <code>verb</code> rules above; in this case, the two
+rules would keep calling each other and never finish.  In reality, one 
+should define more alternatives to break the cycle.)
+</p>
+<p>To define a system of RTNs or rules to the Dada Engine, write it in
+the notation above (the language known as <code>pb</code>) in an ASCII text file;
+this file is known as a <em>script</em>.
+As well as recursive transition networks, a Dada Engine script may contain 
+other practical functions, such as mappings, transformations and variables.
+See Chapter 2 for more information.
+</p>
+<hr size="6">
+<a name="The-Evaluation-Process"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Overview" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Basics" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Basics" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="The-Evaluation-Process-1"></a>
+<h2 class="section">1.2 The Evaluation Process</h2>
+
+<p>When you start the Dada Engine, you do so with the <code>dada</code> command,
+like so:
+</p>
+<table><tr><td>&nbsp;</td><td><table class="cartouche" border="1"><tr><td>
+<pre class="example">% dada myscript.pb
+</pre></td></tr></table>
+</td></tr></table>
+
+<p>The command <code>dada</code> first pipes your script (in this case 
+&lsquo;<samp>myscript.pb</samp>&rsquo;) through the C preprocessor; this allows you to include
+preprocessor macros, conditional definitions and external libraries of 
+rules.  The output of the preprocessor is then sent to <code>pb</code>, a program
+which reads in and evaluates the rules.
+</p>
+<p>The <code>pb</code> command reads the complete input before it emits anything.
+Once it has read everything, it evaluates the initial rule (also known as
+the <em>start symbol</em>); in turn, this causes any rules invoked from the 
+initial rule to be evaluated.
+Unless a start symbol is specified on the command line, 
+the first rule read that is not defined as a <em>resource rule</em>
+becomes the start symbol.
+</p>
+<p>As the rules are evaluated, the text generated is appended to a buffer
+in memory; once everything has been evaluated, the buffer&rsquo;s contents are
+emitted.
+</p>
+<p>The <code>dada</code> command accepts several command-line options.  
+See the UNIX manual page supplied for details.
+</p>
+<hr size="6">
+<a name="The-pb-Language"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#The-Evaluation-Process" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Lexical-Elements" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Basics" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="The-pb-Language-1"></a>
+<h1 class="chapter">2. The pb Language</h1>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Lexical-Elements">2.1 Lexical Elements</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">    How the building blocks of pb work
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Grammars-and-Rules">2.2 Grammars and Rules</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">  The basics of pb grammars
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Transforming-Text">2.3 Transforming Text</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">   Features for performing operations on text
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Embedded-Code">2.4 Embedded Code</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">       Imperative code which may be embedded in rules
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Lexical-Elements"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#The-pb-Language" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Comments" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Lexical-Elements-1"></a>
+<h2 class="section">2.1 Lexical Elements</h2>
+
+<hr size="6">
+<a name="Comments"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Lexical-Elements" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Identifiers" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Lexical-Elements" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection">2.1.1 Comments</h3>
+
+<p>Comments in pb are handled as in C++ and Java.  A comment of any length
+may be enclosed between the sequence &lsquo;<samp>/*</samp>&rsquo; and the sequence &lsquo;<samp>*/</samp>&rsquo;.
+Alternatively, one-line comments may be preceded by &lsquo;<samp>//</samp>&rsquo;.
+The following are valid comments:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">/* This is a two-line comment. 
+See? */
+
+// You are not expected to understand this.
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Identifiers"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Comments" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Literal-strings" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Lexical-Elements" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection">2.1.2 Identifiers</h3>
+
+<p>An identifier in pb is any sequence of letters, digits, underscores and 
+hyphens which starts with a letter or underscore.  
+Identifiers are case-sensitive.
+</p>
+<p>The following are valid identifiers:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">futplex
+
+sort-of-vague-ambiguous-noun
+
+_298R
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Literal-strings"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Identifiers" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Lexical-Elements" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection">2.1.3 Literal strings</h3>
+
+<p>A literal string in pb is any sequence of characters embedded in quotes.
+Unlike in C, a string may contain unquoted newlines.  The backslash 
+character serves a similar function as in C.  The following sequences
+have special meanings:
+</p>
+<dl compact="compact">
+<dt> <code>\\&quot;</code></dt>
+<dd><p>Double quote
+</p></dd>
+<dt> <code>\\n</code></dt>
+<dd><p>Newline
+</p></dd>
+<dt> <code>\\t</code></dt>
+<dd><p>Tab
+</p></dd>
+<dt> <code>\\v</code></dt>
+<dd><p>Vertical tab
+</p></dd>
+<dt> <code>\\b</code></dt>
+<dd><p>Backspace
+</p></dd>
+<dt> <code>\\r</code></dt>
+<dd><p>Carriage return
+</p></dd>
+<dt> <code>\\f</code></dt>
+<dd><p>Form feed
+</p></dd>
+<dt> <code>\\a</code></dt>
+<dd><p>Audible alert
+</p></dd>
+</dl>
+
+<hr size="6">
+<a name="Grammars-and-Rules"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Literal-strings" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Atoms" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Grammars-and-Rules-1"></a>
+<h2 class="section">2.2 Grammars and Rules</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Atoms">2.2.1 Atoms</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">               Rules are comprised of atoms
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Rules">2.2.2 Declaring grammatical rules</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#Variables">2.2.3 Variables</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">           Setting and reading variables
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Advanced-Features">The * and + operators</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">   Parametric rules and indirection
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Atoms"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Literal-Text" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Atoms-1"></a>
+<h3 class="subsection">2.2.1 Atoms</h3>
+
+<p><em>Atoms</em> are the building blocks of rules. Each atom is a self-contained
+element which performs a function, usually generating text.
+</p>
+<p>Atoms are divided into several types. These are:
+</p><table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Literal-Text">2.2.1.1 Literal Text</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">        Atoms which return their contents
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Symbols">2.2.1.2 Symbols</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">             Atoms which cause rules to be evaluated
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Code-Blocks">2.2.1.3 Code Blocks</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">         Blocks of embedded code which is executed
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Literal-Text"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Atoms" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Symbols" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Atoms" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Literal-Text-1"></a>
+<h4 class="subsubsection">2.2.1.1 Literal Text</h4>
+
+<p>A <em>literal text</em> atom consists of a sequence of characters enclosed by
+double quotes. Double quotes, newlines and tabs may be included in
+literal text using C-style backslash escapes.
+</p>
+<p>Examples:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        &quot;foo&quot;
+
+        &quot;\&quot;Come into my parlour,\&quot; said the spider to the fly.&quot;
+
+        &quot;Friends, Romans, Countrymen,\nLend me your ears&quot;
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Symbols"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Literal-Text" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Code-Blocks" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Atoms" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Symbols-1"></a>
+<h4 class="subsubsection">2.2.1.2 Symbols</h4>
+
+<p>A <em>symbol</em> is an atom which names a rule to be evaluated. A symbol name
+may be any sequence of letters, digits, underscores and hyphens with
+the restriction that the first character must be a letter or an underscore.
+Symbol identifiers are not enclosed by quotes. The following are examples of 
+possible symbol names:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        foo
+
+        noun2
+
+        abstract-adjective
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Code-Blocks"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Symbols" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Rules" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Atoms" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Code-Blocks-1"></a>
+<h4 class="subsubsection">2.2.1.3 Code Blocks</h4>
+
+<p>A pb rule may contain blocks of embedded code. This code allows
+expressions to be evaluated and variables to be updated. 
+See section <a href="#Embedded-Code">Embedded Code</a> for details.
+</p>
+<p>A block of embedded code is enclosed by curly brackets.
+</p>
+<hr size="6">
+<a name="Rules"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Code-Blocks" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Variables" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Declaring-grammatical-rules"></a>
+<h3 class="subsection">2.2.2 Declaring grammatical rules</h3>
+
+<p>In pb, the form of a rule declaration is:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="display">rule::          <i>&lt;rulename&gt;</i> &lsquo;:&rsquo; <i>&lt;options&gt;</i> &lsquo;;&rsquo;
+
+options::       <i>&lt;options&gt;</i> &rsquo;|&rsquo; <i>&lt;option&gt;</i>
+                | <i>&lt;option&gt;</i>
+
+option::
+                | <i>&lt;atom&gt;</i> <i>&lt;option&gt;</i>
+</pre></td></tr></table>
+
+<p>rulename is a symbol which is assigned to the rule. 
+</p>
+<p>If a rule has several options, one will be selected randomly at the time of
+evaluation. The atoms of the chosen option will be evaluated in sequence and
+their results joined into a string, which shall be returned as the result of
+the rule.
+</p>
+<p>For example, in the following grammar:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">sentence: &quot;The ball is &quot; colour &quot;.&quot; ;
+
+colour: &quot;red&quot;
+        | &quot;green&quot;
+        | &quot;blue&quot;
+;
+</pre></td></tr></table>
+
+<p><code>colour</code> will evaluate to either &quot;red&rsquo;, &quot;green&quot; or &quot;blue&quot;; hence,
+<code>sentence</code> will evaluate to &quot;The ball is red.&quot;, &quot;The ball is green.&quot;, or
+&quot;The ball is blue.&quot;
+</p>
+<p>If a rule has several options, the same option will never be chosen twice in
+immediate succession.
+</p>
+<hr size="6">
+<a name="Variables"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Rules" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Advanced-Features" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Variables-1"></a>
+<h3 class="subsection">2.2.3 Variables</h3>
+
+<p>pb allows you to use <em>variables</em>. These may be used to store text (or,
+usign embedded code, integers). The following atom operators may be used to
+handle variables:
+</p>
+<dl compact="compact">
+<dt> <code>var=atom</code></dt>
+<dd><p>Evaluate <code>atom</code>, setting the variable named <code>var</code> to the result,
+and return the result.
+</p></dd>
+<dt> <code>var&lt;&lt;atom</code></dt>
+<dd><p>If <code>var</code> is not set, evaluate <code>atom</code> and set <code>var</code> 
+to the result, returning it; else return the present value of <code>var</code>.
+</p></dd>
+<dt> <code>$var</code></dt>
+<dd><p>Return the present value of the variable named <code>var</code>.
+</p></dd>
+</dl>
+
+<hr size="6">
+<a name="Advanced-Features"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Variables" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Parametric-rules" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="The-_002a-and-_002b-operators"></a>
+<h3 class="unnumberedsubsec">The * and + operators</h3>
+
+<p>To allow grammars to be written more simply, pb includes shortcuts for
+repeatedly invoking rules. When an atom is followed by the character *
+(also known as the <em>Kleene star</em>),
+pb will evaluate this atom zero or more times (determined at random) and
+return the results, concatenated. Thus, the rule:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        foo: bar* ;
+</pre></td></tr></table>
+
+<p>has a notionally similar function to :
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        foo: bar foo
+             | /* nothing */ ;
+</pre></td></tr></table>
+
+<p>The + operator has a similar function; in this case, however, the atom is
+evaluated at least once. The following rule definition:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        foo: bar+ ;
+</pre></td></tr></table>
+
+<p>has a notionally similar function to :
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        foo: bar foo
+             | bar ;
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Parametric-rules"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Advanced-Features" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Inline-choices" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="unnumberedsubsec">Parametric rules</h3>
+
+<p>A <em>parametric rule</em> is a rule which, when evaluated, takes parameters.
+This rule is declared with one or more parameter names in brackets after its
+name, and is invoked in a similar fashion. When the rule is evaluated, the
+parameters with which it is called are bound to the formal parameters, and
+references to the formal parameters are replaced with them. For example,
+if the following rule is defined:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        i-am(my-name):  &quot;Hello; my name is &quot; my-name &quot;.&quot; ;
+</pre></td></tr></table>
+
+<p>Then if it is invoked with the atom <code>i-am(&quot;Bob&quot;)</code>, it will yield the
+result: 
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">-| &quot;Hello; my name is Bob.&quot;
+</pre></td></tr></table>
+
+<p>If a rule has several parameters, they are separated with spaces.
+</p>
+<p>Note that in the current release there are some restrictions on the use of 
+parameters in expressions; parameters cannot be accessed from embedded
+code or in inline choices.
+</p>
+<hr size="6">
+<a name="Inline-choices"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Parametric-rules" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Resource-rules" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="unnumberedsubsec">Inline choices</h3>
+
+<p>As a short-cut, pb allows random choices to be declared inline in a rule,
+without declaring a separate rule for them. For instance, the rule declaration:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">foo: bar [ xyzzy | plugh ] baz ;
+</pre></td></tr></table>
+
+<p>has the same result as the following two rules:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">foo: bar quux baz ;
+
+quux: xyzzy | plugh ;
+</pre></td></tr></table>
+
+<p>only the second form defines an additional rule, <code>quux</code>, to handle the
+choice.
+</p>
+<p>Inline choices should be used where a &rsquo;once-off&rsquo; choice is needed; in such 
+cases, they help to eliminate cluttering of the rule-base and make the script
+more readable. If a choice will be needed more than once, it is a better idea
+to declare it as a rule.
+</p>
+<hr size="6">
+<a name="Resource-rules"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Inline-choices" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Silenced-atoms" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="unnumberedsubsec">Resource rules</h3>
+
+<p>By default, when the Dada Engine evaluates a script, it resolves the 
+first rule it sees.  If you include a file at the start of the script
+using the C preprocessor, and this file contains rules, the first rule in
+the file will be selected as the initial rule (or start symbol). 
+This, in most cases, is inconvenient.
+</p>
+<p>To bypass this, the Dada Engine allows you to declare rules as 
+<em>resource rules</em>.  A resource rule is a rule which will not become
+the start symbol, even if the Dada Engine sees it before any other.
+Resource rules are declared by prepending their names with the
+&lsquo;<samp>%resource</samp>&rsquo; keyword; for example, the following code fragment:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        %resource my_name:  &quot;Bob&quot; ;
+
+        output: &quot;Hi! I'm &quot; my_name &quot;!&quot; ;
+</pre></td></tr></table>
+
+<p>will print &lsquo;<samp>Hi! I'm Bob!</samp>&rsquo;. The initial rule is &lsquo;<samp>output</samp>&rsquo;,
+because &lsquo;<samp>my_name</samp>&rsquo; is flagged as being a resource and thus not
+eligible to be the initial rule.
+</p>
+<p>(Note that there&rsquo;s nothing preventing the user from explicitly
+invoking a resource rule as the initial rule by specifying it from
+the command line with the &lsquo;<samp>-s</samp>&rsquo; switch.)
+</p>
+<hr size="6">
+<a name="Silenced-atoms"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Resource-rules" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Indirection" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="unnumberedsubsec">Silenced atoms</h3>
+
+<p>An atom may be <em>silenced</em> by preceding it with a question mark. For
+example, to assign the value &quot;blah&quot; to the variable <code>foo</code> without
+outputting it, one could write <code>?foo=&quot;blah&quot;</code>. The effect is illustrated
+by the two sample rules below:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">foo:    &quot;the&quot;  colour=&quot; green&quot;  &quot; dragon was&quot;  $colour ;
+
+foo:    &quot;the&quot;  ?colour=&quot; green&quot;  &quot; dragon was&quot;  $colour ;
+</pre></td></tr></table>
+
+<p>The first rule would output &quot;the green dragon was green&quot;, whereas the
+second rule would output &quot;the dragon was green&quot;, as the assignment of
+&quot; green&quot; to <code>colour</code> is silenced and generates no output.
+</p>
+<hr size="6">
+<a name="Indirection"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Silenced-atoms" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Transforming-Text" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Grammars-and-Rules" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="unnumberedsubsec">Indirection</h3>
+
+<p>Indirection allows the output of a rule to be used as the name of another
+rule. This is useful when the ranges of valid choices are influenced by a
+prior choice. For example, the following script:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">start:  sentence-about(animal) ;
+
+animal: &quot;dog&quot; | &quot;cat&quot; ;
+
+sentence-about(subject): @subject &quot; is a &quot; subject ;
+
+dog: &quot;Fido&quot; | &quot;Spot&quot; ;
+
+cat: &quot;Tiddles&quot; | &quot;Fluffy&quot; ;
+</pre></td></tr></table>
+
+<p>may produce the sentences &quot;Spot is a dog&quot; or &quot;Fluffy is a cat&quot;, but will
+never produce &quot;Spot is a cat&quot;. When <code>sentence-about</code> is evaluated,
+<code>subject</code> is set to either &quot;dog&quot; or &quot;cat&quot;; when the first atom is
+evaluated, pb uses it as the name of a rule and either evaluates the rule
+named <code>dog</code> or the one named <code>cat</code>.
+</p>
+<hr size="6">
+<a name="Transforming-Text"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Indirection" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Mappings" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Transforming-Text-1"></a>
+<h2 class="section">2.3 Transforming Text</h2>
+
+<p>There are two methods for transforming text: <em>mappings</em> and 
+<em>transformations</em>. Both are applied to an atom with the construct
+<code>atom&gt;func</code>, where <code>func</code> is the name of the mapping or
+transformation.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Mappings">2.3.1 Text mappings</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">            A way of mapping strings to other strings
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Transformations">2.3.2 Text transformations</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+</table>
+
+<hr size="6">
+<a name="Mappings"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Transforming-Text" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Transformations" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Transforming-Text" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Text-mappings"></a>
+<h3 class="subsection">2.3.1 Text mappings</h3>
+
+<p>A mapping allows you to transform strings from one set into strings from
+another. Mappings use regular expressions, and thus one or more strings
+may be mapped to a string. In addition, mappings may be used to perform
+regular substitution on strings.
+</p>
+<p>Mappings take the following form:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="display">mapping::         <i>&lt;mapping name&gt;</i> &rsquo;:&rsquo; <i>&lt;mapping options&gt;</i> &quot;;&quot;
+
+mapping options:: <i>&lt;mapping options&gt;</i> <i>&lt;mapping option&gt;</i>
+                  | <i>&lt;mapping option&gt;</i>
+
+mapping option::  <i>&lt;source&gt;</i> &quot;-&gt;&quot; <i>&lt;destination&gt;</i>
+                  | <i>&lt;string1&gt;</i> &quot;&lt;-&gt; <i>&lt;string2&gt;</i>
+                  | <i>&lt;pattern&gt;</i> &quot;-&gt;&quot; <i>&lt;from&gt;</i>&quot;/&quot;<i>&lt;to&gt;</i>
+</pre></td></tr></table>
+
+<p>There are three forms of options; the first form maps a string or set of
+strings to a string, but not vice versa. 
+</p>
+<p>The second form maps bidirectionally between two strings; the option:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="display">        <i>&quot;foo&quot;</i> &lt;-&gt; <i>&quot;bar&quot;</i>
+</pre></td></tr></table>
+
+<p>is equivalent to the two options:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        &quot;foo&quot; -&gt; &quot;bar&quot;
+        &quot;bar&quot; -&gt; &quot;foo&quot;
+</pre></td></tr></table>
+
+<p>The third form is used to perform simple sed-style regular expression
+substitutions. The substitution is performed on any string matching the
+regular expression to the left of the arrow; in it, all substrings matching 
+the regular expression in the second string are replaced with copies of the
+third string.
+</p>
+<p>Below are some examples of mappings:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">// map several personal names to the appropriate pronouns
+gender-pronoun:
+        &quot;Alice&quot; -&gt; &quot;she&quot;
+        &quot;Bob&quot;   -&gt; &quot;he&quot;
+        &quot;Carol&quot; -&gt; &quot;s/he&quot; // Carol is an ambiguous name
+;
+</pre><pre class="example">
+</pre><pre class="example">// map words and their opposites to each other
+
+opposite:
+        &quot;dark&quot; &lt;-&gt; &quot;light&quot;
+        &quot;large&quot; &lt;-&gt; &quot;small&quot;
+        &quot;true&quot; &lt;-&gt; &quot;false&quot;
+;
+</pre><pre class="example">
+</pre><pre class="example">// a rule for deriving the plurals of words. Works in some cases.
+pluralise:
+        &quot;.*y$&quot; -&gt; &quot;y$&quot;/&quot;ies&quot;
+        &quot;.*s$&quot; -&gt; &quot;$&quot;/&quot;es&quot;
+        &quot;.*&quot; -&gt; &quot;$&quot;/&quot;s&quot;
+;
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Transformations"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Mappings" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Embedded-Code" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Transforming-Text" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Text-transformations"></a>
+<h3 class="subsection">2.3.2 Text transformations</h3>
+
+<p>Transformations are defined as follows:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="display">transformation::          &lsquo;<samp>%trans</samp>&rsquo; <i>&lt;transname&gt;</i> &lsquo;:&rsquo; <i>&lt;transform options&gt;</i> &rsquo;;&rsquo;
+
+transform options::       <i>&lt;transform option&gt;</i> <i>&lt;transform options&gt;</i>
+                        | <i>&lt;transform option&gt;</i>
+
+transform option::        <i>&lt;regex&gt;</i> &lsquo;:&rsquo; <i>[address]</i> <i>&lt;command&gt;</i> &lsquo;;&rsquo;
+
+address::                 <i>&lt;number&gt;</i> <i>[&rsquo;,&rsquo; &lt;number&gt;]</i>
+
+</pre></td></tr></table>
+
+<p>regex is a literal string containing a regular expression to whose occurrences
+the transformation is to be applied. 
+</p>
+<p>address consists of a range of character positions in which positive numbers
+refer to displacements from the start of the string and negative ones from
+the end; -1 refers to the last character of a string.
+</p>
+<p>Each command may be followed by zero or more arguments, each of which is a
+quoted string. The available commands are:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="display"> d              delete the text in the address range
+ l              convert the text in the address range to lower case
+ s &quot;from&quot; &quot;to&quot;  replace all occurrences of the regular expression
+                &lsquo;from&rsquo; with the string &lsquo;to&rsquo;
+ u              convert the text in the address range to upper case
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Embedded-Code"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Transformations" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Expressions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Embedded-Code-1"></a>
+<h2 class="section">2.4 Embedded Code</h2>
+
+<p>In pb, blocks of code may be embedded in rules. These may return a result
+or not.
+</p>
+<p>A block of code consists of one or more statements, separated with semicolons.
+At present, there are only two types of statements: assignments and returns.
+An assignment evaluates an expression containing either integer literals 
+or integer variables and assigns the result to a variable. A return statement
+evaluates an expression as above and exits the block of code, returning the
+result.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Expressions">2.4.1 Expressions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">         Expressions in which variables may be evaluated.
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Assignments">2.4.2 Assigning values to variables</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#Return-Statements">2.4.3 Returning results</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+</table>
+
+<hr size="6">
+<a name="Expressions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Embedded-Code" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Expression-Overview" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Embedded-Code" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Expressions-1"></a>
+<h3 class="subsection">2.4.1 Expressions</h3>
+
+<p>In embedded code, an expression is a combination of operations which,
+when evaluated, yields a value.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Expression-Overview">2.4.1.1 Overview of Expressions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#Numeric-Operators">2.4.1.2 Operators for Numeric Values</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#Textual-Operators">2.4.1.3 Operators for Handling Text</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+</table>
+
+<hr size="6">
+<a name="Expression-Overview"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Expressions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Numeric-Operators" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Expressions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Overview-of-Expressions"></a>
+<h4 class="subsubsection">2.4.1.1 Overview of Expressions</h4>
+
+<p>pb&rsquo;s embedded code supports two types of expressions: Numeric and textual
+expressions. Numeric expressions are expressions whose terms are integers.
+Textual expressions are expressions whose terms are sequences,
+or strings, of text.
+</p>
+<p>If an expression contains terms which evaluate to both integers and text, 
+the integer terms are first converted to text and it is treated as a 
+textual expression. Likewise, if the result of an expression is being
+returned to the enclosing grammatical rule, it is first converted to text.
+</p>
+<p>Operator precedence in arithmetic expressions is as in C, with 
+multiplication, division and modulo taking precedence over addition and 
+subtraction, and all operators being left-associative. Brackets may be used 
+to group terms.
+</p>
+<p>The terms of an expression may be other expressions, literal integers,
+literal strings (in double quotes) or variable names. 
+</p>
+<p>The following are valid expressions:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">                1+1
+
+                ((foo*2)-1)/bar
+
+                &quot;two plus three equals &quot;+(2+3)
+</pre></td></tr></table>
+
+<p>The last expression evaluates to the text string, &quot;two plus three equals 5&quot;.
+</p>
+<hr size="6">
+<a name="Numeric-Operators"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Expression-Overview" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Textual-Operators" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Expressions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Operators-for-Numeric-Values"></a>
+<h4 class="subsubsection">2.4.1.2 Operators for Numeric Values</h4>
+
+<p>In pb, numeric expressions may involve the addition (+), subtraction (-), 
+multiplication (*), division (/), integer modulo (%), random number (..), 
+lesser (&lt;&lt;) and greater (&gt;&gt;) operators.
+</p>
+<p>The addition operator adds two integers; for example, <code>2+3</code> would
+evaulate to <code>5</code>. Similarly, the subtraction operator subtracts two
+integers, and the multiplication and division operators multiply and
+divide their arguments respectively. The modulo operator evaluates to the 
+remainder of dividing its first argument by its second; for example, 
+<code>5%2</code> would yield <code>1</code>.
+</p>
+<p>The random operator selects at random an integer from a range between two
+bounding values. It is written as <code>a..b</code>, where <code>a</code> is the lower
+bound and <code>b</code> is the upper. For example, the expression <code>2..5</code> would
+yield either 2, 3, 4 or 5, chosen at random.
+</p>
+<p>The lesser operator (written as <code>&lt;&lt;</code>) yields the lesser of its two 
+arguments; for instance, <code>2&lt;&lt;3</code> would evaluate to 2, as would
+<code>3&lt;&lt;2</code>. Similarly, the greater operator (written as <code>&gt;&gt;</code>) yields the
+greater of its two arguments.
+</p>
+<hr size="6">
+<a name="Textual-Operators"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Numeric-Operators" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Assignments" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Expressions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Operators-for-Handling-Text"></a>
+<h4 class="subsubsection">2.4.1.3 Operators for Handling Text</h4>
+
+<p>The concatenation operator, +, may be used in expressions to join strings
+of text; for example, <code>&quot;foo&quot; + &quot;bar&quot;</code> would yield, <code>&quot;foobar&quot;</code>.
+</p>
+<p>Additionally, rules may be invoked in expressions, yielding string terms; 
+to add a rule invocation as a term, add the rule name preceded by a &rsquo;@&rsquo;.
+The following rules yield equivalent results:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        sentence:       &quot;The &quot; noun &quot; is green.&quot; ;
+
+        sentence:       &quot;The &quot; {=@noun} &quot; is green.&quot; ;
+
+        sentence:       {=&quot;The &quot; + @noun + &quot; is green.&quot; } ;
+</pre></td></tr></table>
+
+<p>The first sentence invokes the <code>noun</code> rule directly; the second invokes
+it in a code block, returning its result as the result, which is then strung
+together with the literal strings <code>&quot;The &quot;</code> and <code>&quot;is green.&quot;</code>. The
+third form concatenates the three strings wholly within a block of code,
+returning the complete result.
+</p>
+<hr size="6">
+<a name="Assignments"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Textual-Operators" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Return-Statements" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Embedded-Code" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Assigning-values-to-variables"></a>
+<h3 class="subsection">2.4.2 Assigning values to variables</h3>
+
+<p>To assign a value to a variable, one proceeds as in C.
+For example, the following statement increments <code>counter</code>:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        counter = counter+1
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Return-Statements"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Assignments" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Embedded-Code" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Returning-results"></a>
+<h3 class="subsection">2.4.3 Returning results</h3>
+
+<p>A <em>return statement</em> consists of a &rsquo;=&rsquo; sign followed by an expression.
+When the statement is executed, the expression is evaluated and its result
+converted to a string and returned.
+</p>
+<p>For example, the following rule will return the result &quot;5&quot;:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">                five: { = 2+3 } ;
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="The-Standard-Library"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Return-Statements" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Standard-Mappings" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-pb-Language" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="The-Standard-Library-1"></a>
+<h1 class="chapter">3. The Standard Library</h1>
+
+<p>The Dada Engine has the capability to include prepared files containing
+predefined rules, mappings and transformations.  This is useful, as it
+allows you to reuse code more easily.  In addition, the Dada Engine
+comes with a small library of standard rules which may be useful for
+use in scripts.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Standard-Mappings">3.1 Standard Mappings</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">           A few useful mappings and transformations
+</td></tr>
+<tr><td align="left" valign="top"><a href="#The-Format-Library">3.2 The Format Library</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">          A way to create output in various formats
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Standard-Mappings"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#The-Standard-Library" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Standard-Mappings-1"></a>
+<h2 class="section">3.1 Standard Mappings</h2>
+
+<p>A few commonly used mappings and transformations are provided in
+the file &lsquo;<samp>stdmap.pbi</samp>&rsquo;.  These mappings include:
+</p>
+<dl compact="compact">
+<dt> <code>upcase</code>   </dt>
+<dd><p>Convert text to uppercase.  For example, &lsquo;<samp>&quot;foo&quot;&gt;upcase</samp>&rsquo; would yield 
+&lsquo;<samp>FOO</samp>&rsquo;
+</p></dd>
+<dt> <code>upcase-first</code></dt>
+<dd><p>Convert the first character of text to uppercase.  For example, 
+&lsquo;<samp>&quot;foo bar&quot;&gt;upcase-first</samp>&rsquo; would yield &lsquo;<samp>Foo bar</samp>&rsquo;.
+</p></dd>
+</dl>
+
+<hr size="6">
+<a name="The-Format-Library"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Standard-Mappings" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#PROLOGUE" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="The-Format-Library-1"></a>
+<h2 class="section">3.2 The Format Library</h2>
+
+<p>The format library is a set of standard rules which handle various aspects
+of output for various formats.  It contains definitions of these rules for
+various output formats (currently supported formats are plain text, HTML
+and <code>troff</code>, but more can be added easily).
+</p>
+<p>To use these rules in your scripts, first include the file &lsquo;<samp>format.pbi</samp>&rsquo; in
+your script, by including the following line:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        #include &lt;format.pbi&gt;
+</pre></td></tr></table>
+
+<p>Then, use the special rules described below to do formatting.
+</p>
+<p>If you use the format library, you can make your script output
+in a different format by defining the preprocessor symbol representing
+the output format.  Currently, defining HTML will cause the output to be
+formatted in HTML, otherwise it will be plain text.
+</p>
+<p>Below are documented the various special formatting rules currently 
+implemented:
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#PROLOGUE">3.2.1 PROLOGUE</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">            Format-specific document prologue
+</td></tr>
+<tr><td align="left" valign="top"><a href="#EPILOGUE">3.2.2 EPILOGUE</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">            Format-specific document epilogue
+</td></tr>
+<tr><td align="left" valign="top"><a href="#TITLE">3.2.3 TITLE</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">               Document title
+</td></tr>
+<tr><td align="left" valign="top"><a href="#AUTHOR">3.2.4 AUTHOR</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">              Document attribution
+</td></tr>
+<tr><td align="left" valign="top"><a href="#AUTHOR_005fINST">3.2.5 AUTHOR_INST</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">         Document attribution, with author and institution name
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SECTION">3.2.6 SECTION</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">             Automatically numbered section heading
+</td></tr>
+<tr><td align="left" valign="top"><a href="#FOOTNOTE">3.2.7 FOOTNOTE</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">            Automatically numbered footnote
+</td></tr>
+<tr><td align="left" valign="top"><a href="#BODY">3.2.8 BODY</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                Start of body text
+</td></tr>
+<tr><td align="left" valign="top"><a href="#BRK">3.2.9 BRK</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                 Line break             
+</td></tr>
+<tr><td align="left" valign="top"><a href="#PBRK">3.2.10 PBRK</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                Paragraph break             
+</td></tr>
+<tr><td align="left" valign="top"><a href="#BOLD">3.2.11 BOLD</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                Set text in bold type
+</td></tr>
+<tr><td align="left" valign="top"><a href="#ITALIC">3.2.12 ITALIC</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">              Set text in italic type
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="PROLOGUE"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#The-Format-Library" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#EPILOGUE" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="PROLOGUE-1"></a>
+<h3 class="subsection">3.2.1 PROLOGUE</h3>
+
+<p>The <code>PROLOGUE</code> rule should be invoked before any other rules which 
+may emit any output.  It outputs whatever may be necessary
+at the start of a document in the format.
+</p>
+<hr size="6">
+<a name="EPILOGUE"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#PROLOGUE" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#TITLE" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="EPILOGUE-1"></a>
+<h3 class="subsection">3.2.2 EPILOGUE</h3>
+
+<p>The <code>EPILOGUE</code> rule should be invoked after all other rules which may
+emit any output.  It outputs whatever may be necessary at the end of 
+a document in the format.
+</p>
+<hr size="6">
+<a name="TITLE"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#EPILOGUE" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#AUTHOR" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="TITLE-1"></a>
+<h3 class="subsection">3.2.3 TITLE</h3>
+
+<p>The <code>TITLE</code> rule is used optionally at the start of a document for
+outputting a title.  This rule is invoked with one argument; the title
+of the document to be emitted.  It must be called before any body text is 
+emitted; i.e.,
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        TITLE(&quot;The Passion Considered as a Mornington Crescent Game&quot;)
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="AUTHOR"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#TITLE" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#AUTHOR_005fINST" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="AUTHOR-1"></a>
+<h3 class="subsection">3.2.4 AUTHOR</h3>
+
+<p>The <code>AUTHOR</code> rule is used optionally at the start of a document 
+(after <code>TITLE</code> but before <code>BODY</code>) for emitting a formatted 
+author name; i.e.,
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        AUTHOR(&quot;J. R. Dobbs&quot;)
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="AUTHOR_005fINST"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#AUTHOR" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SECTION" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="AUTHOR_005fINST-1"></a>
+<h3 class="subsection">3.2.5 AUTHOR_INST</h3>
+
+<p>The <code>AUTHOR_INST</code> rule is used optionally at the start of a document 
+(after <code>TITLE</code> but before <code>BODY</code>) for emitting a formatted 
+byline, including an author name and institution; i.e.,
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        AUTHOR_INST(&quot;M. Faustroll&quot; &quot;Institute de Pataphysique&quot;)
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="SECTION"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#AUTHOR_005fINST" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#FOOTNOTE" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="SECTION-1"></a>
+<h3 class="subsection">3.2.6 SECTION</h3>
+
+<p>The <code>SECTION</code> rule is used within the document body to emit an 
+automatically numbered section heading; i.e.,
+</p><table><tr><td>&nbsp;</td><td><pre class="example">        page7: SECTION(&quot;THE REVELATION&quot;) 
+                &quot;Just prior to the decade of the nineteen-sixties, &hellip;&quot;
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="FOOTNOTE"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SECTION" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#BODY" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="FOOTNOTE-1"></a>
+<h3 class="subsection">3.2.7 FOOTNOTE</h3>
+
+<p>The <code>FOOTNOTE</code> rule is used within text to insert an automatically
+numbered footnote.  A footnote marker is inserted into the text where
+the rule is invoked, and the text of the footnote is inserted further 
+down with any other footnotes.  Example:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        &quot;Whereupon, by the law of negative reversal&quot;
+        FOOTNOTE(&quot;The LAW OF NEGATIVE REVERSAL states that &hellip;&quot;)
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="BODY"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#FOOTNOTE" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#BRK" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="BODY-1"></a>
+<h3 class="subsection">3.2.8 BODY</h3>
+
+<p>The <code>BODY</code> rule is invoked before any body text is emitted.
+It causes any formatting code required for the body text to be emitted.
+</p>
+<hr size="6">
+<a name="BRK"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#BODY" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#PBRK" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="BRK-1"></a>
+<h3 class="subsection">3.2.9 BRK</h3>
+
+<p>The <code>BRK</code> rule is invoked to generate a line break.  It emits
+whatever corresponds to a line break in the output format.
+</p>
+<hr size="6">
+<a name="PBRK"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#BRK" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#BOLD" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="PBRK-1"></a>
+<h3 class="subsection">3.2.10 PBRK</h3>
+
+<p>The <code>PBRK</code> rule is invoked to generate a paragraph break.  It emits
+whatever corresponds to a paragraph break in the output format.
+</p>
+<hr size="6">
+<a name="BOLD"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#PBRK" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#ITALIC" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="BOLD-1"></a>
+<h3 class="subsection">3.2.11 BOLD</h3>
+
+<p>The <code>BOLD</code> rule causes its parameter to be set in bold, if this
+is supported in the current output format; e.g.,
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        &quot;This sentence is about &quot; BOLD(&quot;these three words&quot;) &quot;. &quot;
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="ITALIC"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#BOLD" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#The-Format-Library" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="ITALIC-1"></a>
+<h3 class="subsection">3.2.12 ITALIC</h3>
+
+<p>The <code>ITALIC</code> rule causes its parameter to be set in italics, if this
+is supported in the current output format; e.g.,
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">        &quot;Half a bee, philosophically, must &quot; ITALIC(&quot;ipso facto&quot;)
+        &quot;half not be.&quot;
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="In-Practice"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#ITALIC" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Writing-a-Script" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#The-Standard-Library" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Revision-History" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="In-Practice-1"></a>
+<h1 class="chapter">4. In Practice</h1>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Writing-a-Script">4.1 Writing a Script</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">    How to go about creating a Dada Engine script
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Idioms-and-Devices">4.2 Idioms and Devices</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">  Common tricks of the trade
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Writing-a-Script"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#In-Practice" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Idioms-and-Devices" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Revision-History" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Writing-a-Script-1"></a>
+<h2 class="section">4.1 Writing a Script</h2>
+
+<p>At first, the task of writing a script to generate random text in any
+complex genre with enough flexibility to be interesting may seem 
+daunting.  Looking at the size of some complex scripts &ndash; such as the
+Postmodernism Generator &ndash; may not help to shake this sensation.
+But, as usual, there are practical techniques which help in this task.
+</p>
+<p>One approach to the task of writing a script is the <em>bottom-up</em> approach.
+Basically, this means starting small and progressively enhancing and
+enlarging the script.  For example, if you&rsquo;re writing a script to 
+generate journal articles, start by writing a rule to generate sentences,
+and then go on to paragraphs, sections and finally the whole article.
+Whilst enhancing the script, add rules for generating titles, citations,
+footnotes and the like, as well as any new sentence forms, terms and 
+other elements that you think of.
+</p>
+<p>Another approach is to take existing material in the genre, write it in
+and <em>generalise</em> it.  For example, if you are writing a script to
+generate travesties of technical papers, you may want to put in a 
+sentence fragment such as &ldquo;can be proven to be finite&rdquo;.  If you do so,
+it may be an idea to think of other terms that may be substituted for
+&ldquo;finite&rdquo; in this context; for example, &ldquo;NP-complete&rdquo; or &ldquo;valid&rdquo;
+(or even &ldquo;infinite&rdquo;).  This approach, if used carefully, can be very
+effective.
+</p>
+<p>Finally, keep in mind that every new alternative you add to a rule
+decreases the probabilities of the other alternatives being selected.
+If you think that one alternative is not quite appropriate, it may be 
+a good idea to delete it.
+</p>
+<hr size="6">
+<a name="Idioms-and-Devices"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Writing-a-Script" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Optionally-emitting-text" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Revision-History" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Idioms-and-Devices-1"></a>
+<h2 class="section">4.2 Idioms and Devices</h2>
+
+<p>The following are devices which I have commonly employed in scripts.
+You may find them useful as well.
+</p>
+<hr size="6">
+<a name="Optionally-emitting-text"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Idioms-and-Devices" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Accepting-user-parameters" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Idioms-and-Devices" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Revision-History" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="unnumberedsubsec">Optionally emitting text</h3>
+
+<p>If you wish to either emit a string or not emit it, with a probability of 0.5
+either way, the formation for this is:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">[&quot;&quot;|&quot;<em>your string goes here</em>&quot;]
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Accepting-user-parameters"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Optionally-emitting-text" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Remembering-choices" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Idioms-and-Devices" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Revision-History" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="unnumberedsubsec">Accepting user parameters</h3>
+
+<p>While the Dada Engine currently has no facilities for interaction, 
+there is a way to specify parameters at run time.  This can be done 
+using the C preprocessor.  For example, if you wish to write a script
+that will use a person&rsquo;s name, specified by the user, in its output,
+you can do something like the following:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">blame:  &quot;It's all &quot; NAME &quot;'s fault! &quot; ;
+</pre></td></tr></table>
+
+<p><code>NAME</code> is not specified as a rule, but is left undefined; when the
+script is run, the user defines it on the command line, using a form like:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="display">dada -DNAME=\&quot;Fred\&quot;
+</pre></td></tr></table>
+
+<p>If no name is defined on the command-line, the script fails with an error;
+to bypass this, you can supply a default name beforehand, using preprocessor
+directives, as follows:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">#ifndef NAME
+#define NAME &quot;Bob&quot;
+#endif
+</pre></td></tr></table>
+
+<p>The use of the preprocessor is not limited to substituting strings into
+the output; conditional defines may be used to selectively enable and
+disable parts of rules.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">factoid:  &quot;they are watching us&quot; | &quot;things go better with Coke&quot;
+        | &quot;the woodpecker never bashes his brains out&quot;
+        | [&quot;love&quot;|&quot;greed&quot;|&quot;angular momentum&quot;] &quot; makes the world go round&quot;
+#ifdef UNIX
+        | &quot;motd is not a daemon but a text file&quot;
+#endif
+;
+</pre></td></tr></table>
+
+<p>In this example (excerpted from an actual script), the user can
+specify beforehand whether or not the output should be able to contain
+references to UNIX(R) concepts; thus the output may be tailored to a 
+non-technical audience.
+</p>
+<p>For more information, see the documentation on <code>cpp</code>, the C 
+preprocessor.
+</p>
+<hr size="6">
+<a name="Remembering-choices"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Accepting-user-parameters" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Revision-History" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Idioms-and-Devices" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Revision-History" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="unnumberedsubsec">Remembering choices</h3>
+
+<p>There may be times when you want a script to make a choice for a rule
+only once every time it is run, and to use that choice every time the
+rule is subsequently invoked.  This can be done using variables.
+For example, the following pair of rules selects a value for the rule
+<code>name</code> the first time it is invoked, and returns the name previously
+selected at each subsequent invocation:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">name:   v-name&lt;&lt;new-name ;
+
+new-name: &quot;Alice&quot; | &quot;Bob&quot; | &quot;Carol&quot; ;
+</pre></td></tr></table>
+
+<p>Here, the rule <code>name</code> <em>conditionally defines</em> the variable
+<code>v-name</code>; if <code>v-name</code> is undefined, the rule <code>new-name</code>
+is invoked and its result is assigned to <code>v-name</code> and returned;
+otherwise the current value of <code>v-name</code> is returned as the result
+of <code>name</code> without invoking <code>new-name</code>.
+</p>
+<hr size="6">
+<a name="Revision-History"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Remembering-choices" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Acknowledgments" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#In-Practice" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Acknowledgments" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Revision-History-1"></a>
+<h1 class="appendix">A. Revision History</h1>
+
+<p>1.0:  Released 19 Feb 1996. 
+Error line/filename tracking now works properly with files
+containing included files.  Things which didn&rsquo;t work on Solaris 2.0
+have been (mostly) fixed.  The &quot;BRK&quot; rule has been added to the format 
+library.  A lot has been added to the documentation.
+</p>
+<p>1.0b1:  Released 5 Jan 1996.  The first limited release of the 
+Dada Engine.
+</p>
+<p>pb 0.91: Released in early 1995.  A much earlier, and more primitive,
+incarnation of what became the Dada Engine.
+</p>
+<hr size="6">
+<a name="Acknowledgments"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Revision-History" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#To-Do" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Revision-History" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#To-Do" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Acknowledgments-1"></a>
+<h1 class="appendix">B. Acknowledgments</h1>
+
+<p>I am grateful to everybody who helped with the development and 
+testing of this package, in particular to Mitchell Porter, Jamie Cameron,
+Brandon Long and kristin buxton.
+</p>
+<p>The inspiration for what was to become the Dada Engine came to me in 1994 
+when I read <cite>Godel, Escher, Bach: an Eternal Golden Braid</cite> by 
+Douglas Hofstadter; in particular, when I read the section titled
+&ldquo;A Little Turing Test&rdquo;, on page 621.  
+</p>
+<p>The initial application of the Dada Engine, the Postmodernism Generator,
+is included with this distribution, and may also be accessed through the
+World Wide Web at the following URL:
+</p>
+<p><code>http://www.cs.monash.edu.au/cgi-bin/postmodern</code>.
+</p>
+
+<hr size="6">
+<a name="To-Do"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Acknowledgments" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[ &gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Acknowledgments" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="To-Do-1"></a>
+<h1 class="appendix">C. To Do</h1>
+
+<p>Currently, the pb language is a bit inelegant; it contains a number
+of different features, hacked on when they were needed.  At some stage
+in the future, I intend to rewrite the system, replacing the language 
+with a similar, but more elegant, language.  
+This is likely to be a Turing-complete functional language with 
+a format similar to the pb language.  I would aim to include 
+some sort of ML-like pattern-matching capability in this language, as well
+as a number of data types, such as sets and lists, which would be useful
+for generating certain types of text.
+</p>
+<p>In the shorter term, the current Dada Engine can be further enhanced; 
+one feature which would be useful and which I intend to add is operators for 
+changing the probabilities of options being selected.  Also, a system for
+compiling Dada Engine scripts into stand-alone programs in a language 
+such as C or PostScript is an option which I may explore.
+</p>
+<hr size="6">
+<a name="SEC_Contents"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1>Table of Contents</h1>
+<div class="contents">
+
+<ul class="toc">
+  <li><a name="toc-Basics-1" href="#Basics">1. Basics</a>
+  <ul class="toc">
+    <li><a name="toc-Overview-1" href="#Overview">1.1 Overview</a></li>
+    <li><a name="toc-The-Evaluation-Process-1" href="#The-Evaluation-Process">1.2 The Evaluation Process</a></li>
+  </ul></li>
+  <li><a name="toc-The-pb-Language-1" href="#The-pb-Language">2. The pb Language</a>
+  <ul class="toc">
+    <li><a name="toc-Lexical-Elements-1" href="#Lexical-Elements">2.1 Lexical Elements</a>
+    <ul class="toc">
+      <li><a name="toc-Comments" href="#Comments">2.1.1 Comments</a></li>
+      <li><a name="toc-Identifiers" href="#Identifiers">2.1.2 Identifiers</a></li>
+      <li><a name="toc-Literal-strings" href="#Literal-strings">2.1.3 Literal strings</a></li>
+    </ul></li>
+    <li><a name="toc-Grammars-and-Rules-1" href="#Grammars-and-Rules">2.2 Grammars and Rules</a>
+    <ul class="toc">
+      <li><a name="toc-Atoms-1" href="#Atoms">2.2.1 Atoms</a>
+      <ul class="toc">
+        <li><a name="toc-Literal-Text-1" href="#Literal-Text">2.2.1.1 Literal Text</a></li>
+        <li><a name="toc-Symbols-1" href="#Symbols">2.2.1.2 Symbols</a></li>
+        <li><a name="toc-Code-Blocks-1" href="#Code-Blocks">2.2.1.3 Code Blocks</a></li>
+      </ul></li>
+      <li><a name="toc-Declaring-grammatical-rules" href="#Rules">2.2.2 Declaring grammatical rules</a></li>
+      <li><a name="toc-Variables-1" href="#Variables">2.2.3 Variables</a></li>
+      <li><a name="toc-The-_002a-and-_002b-operators" href="#Advanced-Features">The * and + operators</a></li>
+      <li><a name="toc-Parametric-rules" href="#Parametric-rules">Parametric rules</a></li>
+      <li><a name="toc-Inline-choices" href="#Inline-choices">Inline choices</a></li>
+      <li><a name="toc-Resource-rules" href="#Resource-rules">Resource rules</a></li>
+      <li><a name="toc-Silenced-atoms" href="#Silenced-atoms">Silenced atoms</a></li>
+      <li><a name="toc-Indirection" href="#Indirection">Indirection</a></li>
+    </ul></li>
+    <li><a name="toc-Transforming-Text-1" href="#Transforming-Text">2.3 Transforming Text</a>
+    <ul class="toc">
+      <li><a name="toc-Text-mappings" href="#Mappings">2.3.1 Text mappings</a></li>
+      <li><a name="toc-Text-transformations" href="#Transformations">2.3.2 Text transformations</a></li>
+    </ul></li>
+    <li><a name="toc-Embedded-Code-1" href="#Embedded-Code">2.4 Embedded Code</a>
+    <ul class="toc">
+      <li><a name="toc-Expressions-1" href="#Expressions">2.4.1 Expressions</a>
+      <ul class="toc">
+        <li><a name="toc-Overview-of-Expressions" href="#Expression-Overview">2.4.1.1 Overview of Expressions</a></li>
+        <li><a name="toc-Operators-for-Numeric-Values" href="#Numeric-Operators">2.4.1.2 Operators for Numeric Values</a></li>
+        <li><a name="toc-Operators-for-Handling-Text" href="#Textual-Operators">2.4.1.3 Operators for Handling Text</a></li>
+      </ul></li>
+      <li><a name="toc-Assigning-values-to-variables" href="#Assignments">2.4.2 Assigning values to variables</a></li>
+      <li><a name="toc-Returning-results" href="#Return-Statements">2.4.3 Returning results</a></li>
+    </ul>
+</li>
+  </ul></li>
+  <li><a name="toc-The-Standard-Library-1" href="#The-Standard-Library">3. The Standard Library</a>
+  <ul class="toc">
+    <li><a name="toc-Standard-Mappings-1" href="#Standard-Mappings">3.1 Standard Mappings</a></li>
+    <li><a name="toc-The-Format-Library-1" href="#The-Format-Library">3.2 The Format Library</a>
+    <ul class="toc">
+      <li><a name="toc-PROLOGUE-1" href="#PROLOGUE">3.2.1 PROLOGUE</a></li>
+      <li><a name="toc-EPILOGUE-1" href="#EPILOGUE">3.2.2 EPILOGUE</a></li>
+      <li><a name="toc-TITLE-1" href="#TITLE">3.2.3 TITLE</a></li>
+      <li><a name="toc-AUTHOR-1" href="#AUTHOR">3.2.4 AUTHOR</a></li>
+      <li><a name="toc-AUTHOR_005fINST-1" href="#AUTHOR_005fINST">3.2.5 AUTHOR_INST</a></li>
+      <li><a name="toc-SECTION-1" href="#SECTION">3.2.6 SECTION</a></li>
+      <li><a name="toc-FOOTNOTE-1" href="#FOOTNOTE">3.2.7 FOOTNOTE</a></li>
+      <li><a name="toc-BODY-1" href="#BODY">3.2.8 BODY</a></li>
+      <li><a name="toc-BRK-1" href="#BRK">3.2.9 BRK</a></li>
+      <li><a name="toc-PBRK-1" href="#PBRK">3.2.10 PBRK</a></li>
+      <li><a name="toc-BOLD-1" href="#BOLD">3.2.11 BOLD</a></li>
+      <li><a name="toc-ITALIC-1" href="#ITALIC">3.2.12 ITALIC</a></li>
+    </ul>
+</li>
+  </ul></li>
+  <li><a name="toc-In-Practice-1" href="#In-Practice">4. In Practice</a>
+  <ul class="toc">
+    <li><a name="toc-Writing-a-Script-1" href="#Writing-a-Script">4.1 Writing a Script</a></li>
+    <li><a name="toc-Idioms-and-Devices-1" href="#Idioms-and-Devices">4.2 Idioms and Devices</a>
+    <ul class="toc">
+      <li><a name="toc-Optionally-emitting-text" href="#Optionally-emitting-text">Optionally emitting text</a></li>
+      <li><a name="toc-Accepting-user-parameters" href="#Accepting-user-parameters">Accepting user parameters</a></li>
+      <li><a name="toc-Remembering-choices" href="#Remembering-choices">Remembering choices</a></li>
+    </ul>
+</li>
+  </ul></li>
+  <li><a name="toc-Revision-History-1" href="#Revision-History">A. Revision History</a></li>
+  <li><a name="toc-Acknowledgments-1" href="#Acknowledgments">B. Acknowledgments</a></li>
+  <li><a name="toc-To-Do-1" href="#To-Do">C. To Do</a></li>
+</ul>
+</div>
+<hr size="1">
+<a name="SEC_About"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1>About This Document</h1>
+<p>
+  This document was generated by <em>Conrad Röber</em> on <em>April 28, 2022</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+</p>
+<p>
+  The buttons in the navigation panels have the following meaning:
+</p>
+<table border="1">
+  <tr>
+    <th> Button </th>
+    <th> Name </th>
+    <th> Go to </th>
+    <th> From 1.2.3 go to</th>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt; ] </td>
+    <td align="center">Back</td>
+    <td>Previous section in reading order</td>
+    <td>1.2.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt; ] </td>
+    <td align="center">Forward</td>
+    <td>Next section in reading order</td>
+    <td>1.2.4</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt;&lt; ] </td>
+    <td align="center">FastBack</td>
+    <td>Beginning of this chapter or previous chapter</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td align="center"> [ Up ] </td>
+    <td align="center">Up</td>
+    <td>Up section</td>
+    <td>1.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt;&gt; ] </td>
+    <td align="center">FastForward</td>
+    <td>Next chapter</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td align="center"> [Top] </td>
+    <td align="center">Top</td>
+    <td>Cover (top) of document</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [Contents] </td>
+    <td align="center">Contents</td>
+    <td>Table of contents</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [Index] </td>
+    <td align="center">Index</td>
+    <td>Index</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [ ? ] </td>
+    <td align="center">About</td>
+    <td>About (help)</td>
+    <td> &nbsp; </td>
+  </tr>
+</table>
+
+<p>
+  where the <strong> Example </strong> assumes that the current position is at <strong> Subsubsection One-Two-Three </strong> of a document of the following structure:
+</p>
+
+<ul>
+  <li> 1. Section One
+    <ul>
+      <li>1.1 Subsection One-One
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.2 Subsection One-Two
+        <ul>
+          <li>1.2.1 Subsubsection One-Two-One</li>
+          <li>1.2.2 Subsubsection One-Two-Two</li>
+          <li>1.2.3 Subsubsection One-Two-Three &nbsp; &nbsp;
+            <strong>&lt;== Current Position </strong></li>
+          <li>1.2.4 Subsubsection One-Two-Four</li>
+        </ul>
+      </li>
+      <li>1.3 Subsection One-Three
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.4 Subsection One-Four</li>
+    </ul>
+  </li>
+</ul>
+
+<hr size="1">
+<p>
+ <font size="-1">
+  This document was generated by <em>Conrad Röber</em> on <em>April 28, 2022</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
